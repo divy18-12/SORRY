@@ -1,11 +1,90 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Forgive Me</title>
-</head>
-<body style="background:#000;display:flex;align-items:center;justify-content:center;height:100vh;color:#fff;">
-  <h2>Tap to open 💗 (fresh zip placeholder)</h2>
+Your browser does not support the audio element.
+</audio>
+</div>
+
+
+<script>
+const intro = document.getElementById('intro');
+const sparkles = document.getElementById('sparkles');
+const bgm = document.getElementById('bgm');
+const replay = document.getElementById('replay');
+const reveal = document.getElementById('reveal');
+
+
+function spawnFloating(kind){
+const el = document.createElement('div');
+const x = Math.random()*240 - 20;
+el.style.left = (100 + x) + 'px';
+el.style.bottom = '40px';
+el.style.opacity = 0;
+el.className = kind;
+
+
+if(kind==='butterfly'){
+el.innerHTML = `<svg viewBox="0 0 64 48" width="40" height="30" xmlns="http://www.w3.org/2000/svg"><path d="M32 24c8-12 24-16 24-8s-12 16-24 24c-12-8-24-16-24-24s16-4 24 8z" fill="#f7a8d1" opacity="0.95"/><path d="M32 24c-8-12-24-16-24-8s12 16 24 24c12-8 24-16 24-24s-16-4-24 8z" fill="#b8a0ff" opacity="0.85"/></svg>`;
+} else {
+el.innerHTML = `<svg class="fb-heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.6-9-7.2C0.9 11.1 3 7 6.5 7 8.6 7 10 8.2 12 10c2-1.8 3.4-3 5.5-3C21 7 23.1 11.1 21 13.8 19 16.4 12 21 12 21z" fill="#ff7ab6"/></svg>`;
+}
+sparkles.appendChild(el);
+
+
+const dur = 3500 + Math.random()*1500;
+el.animate([
+{transform: `translateY(0) translateX(0) scale(0.8)`, opacity:0},
+{transform: `translateY(-120px) translateX(${(Math.random()*100-50)}px) scale(1.05)`, opacity:1},
+{transform: `translateY(-240px) translateX(${(Math.random()*200-100)}px) scale(1.1)`, opacity:0}
+],{duration:dur,easing:'cubic-bezier(.2,.9,.2,1)'});
+
+
+setTimeout(()=>el.remove(),dur+50);
+}
+
+
+function burstParticles(){
+for(let i=0;i<8;i++){setTimeout(()=>spawnFloating(i%2? 'butterfly':'heart'), i*120)}
+}
+
+
+function playSequence(){
+// hide the white intro
+intro.classList.add('hidden');
+// open envelope & reveal
+document.getElementById('stage').classList.add('env-open');
+setTimeout(()=>{
+reveal.classList.add('show');
+burstParticles();
+const playPromise = bgm.play();
+if(playPromise!==undefined){
+playPromise.then(()=>{document.getElementById('playHint').style.opacity=0}).catch(()=>{document.getElementById('playHint').style.opacity=1;});
+}
+},650);
+
+
+const interval = setInterval(burstParticles, 1800);
+setTimeout(()=>clearInterval(interval),12000);
+}
+
+
+replay.addEventListener('click', ()=>{
+reveal.classList.remove('show');
+document.getElementById('stage').classList.remove('env-open');
+sparkles.innerHTML='';
+bgm.pause(); bgm.currentTime=0;
+// show intro again
+intro.classList.remove('hidden');
+setTimeout(()=>{ intro.style.opacity = 1 }, 50);
+// allow click to open again
+window.addEventListener('click', ()=>{ playSequence(); }, {once:true});
+});
+
+
+// open on first click anywhere (also hides intro)
+window.addEventListener('click', ()=>{ playSequence(); }, {once:true});
+
+
+// try to start music on first gesture too
+window.addEventListener('pointerdown', ()=>{bgm.play().catch(()=>{}); document.getElementById('playHint').style.opacity=0}, {once:true});
+</script>
 </body>
 </html>
