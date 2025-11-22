@@ -1,167 +1,87 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sorry Yashika 💌</title>
-  <style>
-    :root{--bg:#06060a;--accent1:#ff7ab6;--accent2:#9b8cff;--text:#fff}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
-    body{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent),var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text)}
-    .stage{width:420px;max-width:94vw;height:820px;border-radius:36px;background:linear-gradient(180deg,#07070a,#0e0e12);box-shadow:0 30px 80px rgba(0,0,0,0.7);position:relative;overflow:hidden;border:6px solid #000}
-    .center{height:100%;display:flex;align-items:center;justify-content:center;padding:80px 20px;position:relative}
-    .tap-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,0.85);font-size:18px;font-weight:700;pointer-events:none}
-    .env-wrap{width:260px;height:160px;position:relative;perspective:800px}
-    .envelope{width:100%;height:100%;position:relative;border-radius:12px;background:linear-gradient(180deg,#ffdee7,#ffd9f6);box-shadow:0 10px 30px rgba(0,0,0,0.5);transform-origin:center;transition:transform 900ms cubic-bezier(.2,.9,.2,1)}
-    .flap{position:absolute;left:0;right:0;top:0;height:60%;background:linear-gradient(180deg,#ffd8ea,#ffebf7);clip-path: polygon(0 0, 50% 60%, 100% 0, 100% 100%, 0 100%);transform-origin:top center;border-radius:12px 12px 0 0;box-shadow:inset 0 -8px 20px rgba(0,0,0,0.05)}
-    .paper{position:absolute;left:12px;right:12px;bottom:12px;top:12px;border-radius:8px;background:linear-gradient(180deg,#fff,#fff7);display:flex;align-items:center;justify-content:center;transform:translateY(30%);opacity:0;transition:all 700ms ease}
-    .paper .msg{padding:18px;border-radius:8px;background:transparent;color:#0b1220;text-align:center;font-weight:700;font-family:Georgia, 'Times New Roman', serif;font-size:20px}
-    .env-open .flap{transform:rotateX(180deg) translateY(-10px);transition:transform 700ms cubic-bezier(.2,.9,.2,1)}
-    .env-open .paper{transform:translateY(-8%);opacity:1}
-    .sparkles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-    .reveal{position:absolute;left:50%;transform:translateX(-50%);bottom:120px;width:88%;max-width:360px;text-align:center;pointer-events:none;opacity:0}
-    .reveal.show{opacity:1;transition:opacity 600ms ease 400ms}
-    .apology{font-family:Georgia, 'Times New Roman', serif;font-size:26px;margin:4px 0 0;font-weight:700}
-    .sub{color:rgba(255,255,255,0.75);margin-top:8px;font-size:15px}
-
-    /* floating item styles */
-    .float{position:absolute;width:40px;height:40px;opacity:0;pointer-events:none;will-change:transform,opacity}
-    .float svg{width:100%;height:100%;display:block}
-
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(0.85); opacity: 0; }
-      10% { opacity: 1; }
-      100% { transform: translateY(-380px) scale(1.05); opacity: 0; }
-    }
-
-    .controls{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:center}
-    .btn{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.03);cursor:pointer;color:var(--text);font-weight:600}
-
-    /* intro overlay */
-    .intro{position:fixed;inset:0;background:#ffffff;display:flex;align-items:center;justify-content:center;z-index:99}
-    .intro-text{color:#111;font-size:28px;font-weight:800;font-family:Georgia,'Times New Roman',serif}
-    .intro.hidden{opacity:0;pointer-events:none;transition:opacity 300ms ease}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sorry Yashika 💌</title>
+<style>
+  body{margin:0;background:#000;color:#fff;font-family:Inter;display:flex;align-items:center;justify-content:center;height:100vh;}
+  .intro{position:fixed;inset:0;background:#fff;color:#111;font-family:Georgia;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:10;}
+  .stage{width:420px;max-width:95vw;height:820px;background:#0e0e12;border-radius:30px;position:relative;border:5px solid #000;overflow:hidden;}
+  .center{height:100%;display:flex;align-items:center;justify-content:center;position:relative;}
+  .tap-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px;font-weight:700;}
+  .env-wrap{width:260px;height:160px;position:relative;perspective:800px;}
+  .envelope{width:100%;height:100%;background:#ffd9f6;border-radius:12px;position:relative;transition:0.9s;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+  .flap{position:absolute;left:0;right:0;top:0;height:60%;background:#ffebf7;clip-path: polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);border-radius:12px 12px 0 0;transition:0.7s;}
+  .paper{position:absolute;left:12px;right:12px;top:12px;bottom:12px;background:#fff;border-radius:8px;padding:20px;text-align:center;opacity:0;transform:translateY(30%);transition:0.7s;}
+  .env-open .flap{transform:rotateX(180deg) translateY(-10px);}
+  .env-open .paper{opacity:1;transform:translateY(-5%);}
+  .msg{font-family:Georgia;color:#111;font-size:20px;font-weight:700;}
+  .reveal{position:absolute;bottom:120px;width:90%;left:50%;transform:translateX(-50%);text-align:center;opacity:0;transition:0.6s;}
+  .reveal.show{opacity:1;}
+  .apology{font-family:Georgia;font-size:26px;font-weight:700;}
+  .sub{color:#ccc;margin-top:6px;font-size:15px;}
+  .controls{position:absolute;bottom:16px;width:100%;display:flex;justify-content:center;}
+  .btn{padding:10px 14px;border-radius:20px;background:#222;border:1px solid #555;color:#fff;cursor:pointer;}
+</style>
 </head>
 <body>
 
-  <!-- initial white intro -->
-  <div class="intro" id="intro">
-    <div class="intro-text">SORRY YASHIKA 💌</div>
-  </div>
+<div class="intro" id="intro">SORRY YASHIKA 💌</div>
 
-  <div class="stage" id="stage">
-    <div class="center">
-      <div class="tap-hint" id="hint">Tap to open 💗</div>
-
-      <div class="env-wrap">
-        <div class="envelope" id="env">
-          <div class="flap"></div>
-          <div class="paper" id="paper">
-            <div class="msg" id="msg">I know I have hurted you… and I truly am sorry from my heart. 💗</div>
-          </div>
-        </div>
-        <div class="sparkles" id="sparkles"></div>
+<div class="stage" id="stage">
+  <div class="center">
+    <div class="tap-hint" id="hint">Tap to open 💗</div>
+    <div class="env-wrap">
+      <div class="envelope" id="env">
+        <div class="flap"></div>
+        <div class="paper"><div class="msg">I know I have hurted you… and I truly am sorry from my heart. 💗</div></div>
       </div>
     </div>
-
-    <div class="reveal" id="reveal">
-      <div class="apology" id="apology">I'M SORRY</div>
-      <div class="sub" id="subtitle">I didn't mean to hurt you. Will you forgive me?</div>
-    </div>
-
-    <div class="controls">
-      <button class="btn" id="replay">Replay</button>
-    </div>
-
-    <!-- audio: place your MP3 as assets/song.mp3 -->
-    <audio id="bgm" preload="auto" loop>
-      <source src="assets/song.mp3" type="audio/mpeg">
-    </audio>
   </div>
 
-  <script>
-    const intro = document.getElementById('intro');
-    const stage = document.getElementById('stage');
-    const reveal = document.getElementById('reveal');
-    const sparkles = document.getElementById('sparkles');
-    const bgm = document.getElementById('bgm');
-    const replay = document.getElementById('replay');
-    const hint = document.getElementById('hint');
+  <div class="reveal" id="reveal">
+    <div class="apology">I'M SORRY</div>
+    <div class="sub">I didn't mean to hurt you. Will you forgive me?</div>
+  </div>
 
-    // create one floating element (heart or butterfly)
-    function createFloat(kind){
-      const el = document.createElement('div');
-      el.className = 'float';
-      const left = 40 + Math.random() * 220; // adjust to fit phone frame
-      el.style.left = left + 'px';
-      el.style.bottom = '20px';
+  <div class="controls">
+    <button class="btn" id="replay">Replay</button>
+  </div>
 
-      if(kind === 'butterfly'){
-        el.innerHTML = `<svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg"><path d="M32 24c8-12 24-16 24-8s-12 16-24 24c-12-8-24-16-24-24s16-4 24 8z" fill="#f7a8d1"/><path d="M32 24c-8-12-24-16-24-8s12 16 24 24c12-8 24-16 24-24s-16-4-24 8z" fill="#b8a0ff" opacity="0.9"/></svg>`;
-      } else {
-        el.innerHTML = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.6-9-7.2C0.9 11.1 3 7 6.5 7 8.6 7 10 8.2 12 10c2-1.8 3.4-3 5.5-3C21 7 23.1 11.1 21 13.8 19 16.4 12 21 12 21z" fill="#ff7ab6"/></svg>`;
-      }
+  <!-- Audio -->
+  <audio id="bgm" preload="auto" loop>
+    <source src="assets/song.mp3" type="audio/mpeg">
+  </audio>
+</div>
 
-      sparkles.appendChild(el);
+<script>
+const intro = document.getElementById('intro');
+const stage = document.getElementById('stage');
+const reveal = document.getElementById('reveal');
+const hint = document.getElementById('hint');
+const bgm = document.getElementById('bgm');
 
-      const dur = 4000 + Math.random() * 3000;
-      el.animate([
-        { transform: 'translateY(0) scale(0.85)', opacity: 0 },
-        { transform: 'translateY(-180px) scale(1.02)', opacity: 1, offset: 0.25 },
-        { transform: 'translateY(-380px) scale(1.05)', opacity: 0 }
-      ], { duration: dur, easing: 'cubic-bezier(.2,.9,.2,1)' });
+function playSequence(){
+  intro.style.opacity = 0;
+  setTimeout(()=> intro.style.display = "none", 300);
+  stage.classList.add('env-open');
+  hint.style.opacity = 0;
+  setTimeout(()=> reveal.classList.add('show'), 700);
+  bgm.play().catch(()=>{});
+}
 
-      setTimeout(()=> el.remove(), dur + 50);
-    }
+window.addEventListener('click', ()=> playSequence(), {once:true});
 
-    // perpetual spawning
-    let burstTimer = null;
-    function burstForever(){
-      createFloat(Math.random() > 0.5 ? 'butterfly' : 'heart');
-      const next = 400 + Math.random() * 800; // spawn every 0.4–1.2s
-      burstTimer = setTimeout(burstForever, next);
-    }
+document.getElementById('replay').addEventListener('click', ()=>{
+  reveal.classList.remove('show');
+  stage.classList.remove('env-open');
+  hint.style.opacity = 1;
+  intro.style.display = "flex";
+  intro.style.opacity = 1;
+  window.addEventListener('click', ()=> playSequence(), {once:true});
+});
+</script>
 
-    // play sequence: hide intro, open envelope, show reveal, start music and particles
-    function playSequence(){
-      intro.classList.add('hidden');
-      setTimeout(()=> intro.style.display = 'none', 350);
-
-      stage.classList.add('env-open');
-      hint.style.opacity = 0;
-      setTimeout(()=> reveal.classList.add('show'), 700);
-
-      // start music (user gesture required on many mobile browsers)
-      bgm.play().catch(()=>{});
-
-      // start perpetual particles
-      burstForever();
-    }
-
-    // replay resets everything
-    replay.addEventListener('click', ()=>{
-      reveal.classList.remove('show');
-      stage.classList.remove('env-open');
-      // stop spawn timer + clear existing floats
-      if(burstTimer){ clearTimeout(burstTimer); burstTimer = null; }
-      sparkles.innerHTML = '';
-      // reset audio
-      if(bgm){ bgm.pause(); bgm.currentTime = 0; }
-      // restore intro & hint
-      intro.style.display = 'flex';
-      intro.classList.remove('hidden');
-      hint.style.opacity = 1;
-      // allow next click to open
-      window.addEventListener('click', ()=> playSequence(), {once:true});
-    });
-
-    // start on first click anywhere
-    window.addEventListener('click', ()=> playSequence(), {once:true});
-
-    // also try to start audio on pointerdown as backup
-    window.addEventListener('pointerdown', ()=>{ bgm.play().catch(()=>{}); }, {once:true});
-  </script>
 </body>
 </html>
